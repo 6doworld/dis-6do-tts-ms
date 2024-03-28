@@ -3,9 +3,16 @@ import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 export class CreateTtsDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  text: string;
 
   @IsString()
   @IsNotEmpty()
-  description: string;
+  modelName: string;
+
+  
+  @IsString()
+  @IsNotEmpty()
+  textLanguage: string;
+
+
 }
