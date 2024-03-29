@@ -66,7 +66,7 @@ export class InferenceOrchestratorService {
   //GET ALL TRAINED MODEL
   async findAllTrainedModel() {
     // Move two levels up from the current directory and go to trained model directory
-    const folderPath = path.join(currentDir, '..', '..', '..' , 'GPT-SoVITS/trainedModel');
+    const folderPath = path.join(currentDir, '..', '..', '..' , 'dis-6do-tts-ml/trainedModel');
 
     
     const trainedModel = await this.getFolderNames(folderPath)
