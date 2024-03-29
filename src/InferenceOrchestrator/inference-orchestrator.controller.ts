@@ -17,7 +17,7 @@ export class InferenceOrchestratorController {
   constructor(private readonly inferenceOrchestratorService: InferenceOrchestratorService) {}
 
   @Post()
-  async createTask(@Body() createTtsDto: CreateTtsDto, @Res() res: any) {
+  async createTts(@Body() createTtsDto: CreateTtsDto, @Res() res: any) {
     const response = await this.inferenceOrchestratorService.create(createTtsDto);
     res.status(response.responseCode).json(response);
   }
@@ -28,9 +28,8 @@ export class InferenceOrchestratorController {
     res.status(response.responseCode).json(response);
   }
 
-
   @Delete(InferenceOrchestratorRoute.FILE_NAME)
-  async remove(@Param('id') fileName: string, @Res() res:any) {
+  async remove(@Param('fileName') fileName: string, @Res() res:any) {
     const response = await this.inferenceOrchestratorService.removeProccessedVoice(fileName);
     res.status(response.responseCode).json(response);
   }
