@@ -3,6 +3,7 @@
 /node_modules
 /ttsVoiceOutput
 /build
+/sqliteStorage
 
 # Logs
 logs
