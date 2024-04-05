@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateTtsDto {
   @IsString()
@@ -14,5 +14,9 @@ export class CreateTtsDto {
   @IsNotEmpty()
   textLanguage: string;
 
+  
+  @IsString()
+  @IsNotEmpty()
+  taskId: string;
 
 }

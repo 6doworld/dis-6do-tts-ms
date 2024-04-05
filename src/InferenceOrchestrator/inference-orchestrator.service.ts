@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateTtsDto } from './dto/create-inference-orchestrator.dto';
 import { SuccessResponse } from '../shared/success';
 import { ErrorResponse } from 'src/shared/error';
+import { RabbitMQService } from './rabbbitmq/rabbitmq.service';
+import { InferenceOrchestratorSQLiteService } from './sqlite/inference-orchestrator.service';
 import { promises as fsPromises } from 'fs';
 import * as path from 'path';
 import * as fsExtra from 'fs-extra';
@@ -11,22 +13,22 @@ import * as dotenv from 'dotenv';
 const currentDir = __dirname;
 dotenv.config(); 
 
-const MS_BASE_URL = process.env.MS_BASE_URL
 const ML_BASE_URL = process.env.ML_BASE_URL
 
 
 @Injectable()
 export class InferenceOrchestratorService {
-  constructor( ) {}
+  constructor(
+     private readonly rabbitMQService: RabbitMQService,
+     private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService,
+    
+    ) {}
 
   // create a tts
   async create(createTtsDto: CreateTtsDto) {
     try {
-      const gptModelPath = `trainedModel/${createTtsDto.modelName}/ref.ckpt`;
-      const sovitsModelPath = `trainedModel/${createTtsDto.modelName}/ref.pth`;
-      const randomString = this.generateRandomString(5);
 
-      const folderPath = path.join(currentDir, '..', '..', '..' , 'GPT-SoVITS/trainedModel');
+      const folderPath = path.join(currentDir, '..', '..', '..' , 'dis-6do-tts-ml/trainedModel');
 
       const trainedModelFolders = await this.getFolderNames(folderPath)
      
@@ -37,23 +39,38 @@ export class InferenceOrchestratorService {
         {},
         null,
       );
+
+        
+        const requestBodyData = JSON.stringify({
+          taskId:createTtsDto.taskId,
+          text: createTtsDto.text,
+          textLanguage: createTtsDto .textLanguage,
+          modelName: createTtsDto.modelName
+        });
+        const sqliteDto = {
+          taskId:createTtsDto.taskId,
+          text: createTtsDto.text,
+          language: createTtsDto .textLanguage,
+          model: createTtsDto.modelName,
+          status: 'A',
+          statusMessage: 'Awaiting Processing'
+        };
+       const header = {
+        taskId:createTtsDto.taskId,
+        text: createTtsDto.text,
+        textLanguage: createTtsDto .textLanguage,
+        modelName: createTtsDto.modelName
+       }
+        // Send the requestBody data to the queue
+        await this.inferenceOrchestratorSQLiteService.create(sqliteDto)
+        await this.rabbitMQService.sendToQueue('awaiting_processing', requestBodyData, header );
+        await this.rabbitMQService.sendToQueue('awaiting_processing_ms', requestBodyData, header);
       
-      // Set the model first
-      await this.setModel(gptModelPath, sovitsModelPath);
-      
-      // If the model is set successfully, proceed with inference
-      await this.runInferenceAndSave(
-        createTtsDto.text,
-        createTtsDto.textLanguage,
-        randomString + '.wav', 
-        'ttsVoiceOutput'
-      );
-  
-      const downloadLink = `${MS_BASE_URL}/ttsVoiceOutput/${randomString}.wav`;
+
       return SuccessResponse(
         201,
-        'Text Inference successfully created...',
-        {downloadLink},
+        'Text Inference Proccessing...',
+        {},             
         null,
       );
     } catch (error) {
@@ -132,11 +149,11 @@ export class InferenceOrchestratorService {
   // Function to run inference and save output to a file
   async runInferenceAndSave( text: string, language: string, outputFilename: string, folderName: string): Promise<void> {
     try {
-      // Construct the full output folder path including the created folder
+      //  the full output folder path including the created folder
       const outputFolderPath = path.join(__dirname,  '..', '..', folderName);
       const outputFilePath = path.join(outputFolderPath, outputFilename);
 
-      // Create the folder if it doesn't exist
+      // if the folder doesn't exist
       await fsPromises.mkdir(outputFolderPath, { recursive: true });
 
       // Run inference and save output to the file
@@ -145,7 +162,7 @@ export class InferenceOrchestratorService {
         text_language: language,
         slice: '凑30字一切'
       }, {
-        responseType: 'arraybuffer' // Receive response as array buffer
+        responseType: 'arraybuffer' 
       });
 
       await fsPromises.writeFile(outputFilePath, response.data);
