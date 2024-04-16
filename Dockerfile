@@ -1,20 +1,20 @@
-# Use Node.js 14 LTS as the base image
-FROM node:14
+# Use a newer version of Node.js
+FROM node:16-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json files
+# Copy package.json and package-lock.json (if available) to the container
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of the application code to the container
 COPY . .
 
-# Expose the port on which your Nest.js application will run (replace 3000 with your actual port)
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Command to run your Nest.js application
+# Command to run your application
 CMD ["npm", "run", "start:prod"]
