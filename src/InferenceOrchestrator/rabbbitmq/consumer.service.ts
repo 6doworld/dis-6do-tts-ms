@@ -17,7 +17,7 @@ export class RabbitMQConsumerService {
   constructor(
     private readonly rabbitMQService: RabbitMQService,
     private readonly inferenceOrchestratorService: InferenceOrchestratorService,
-    // private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService
+    private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService
 
     ) {
     this.startConsuming();
