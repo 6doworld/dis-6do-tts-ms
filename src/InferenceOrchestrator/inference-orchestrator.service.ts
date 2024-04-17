@@ -20,7 +20,7 @@ const ML_BASE_URL = process.env.ML_BASE_URL
 export class InferenceOrchestratorService {
   constructor(
      private readonly rabbitMQService: RabbitMQService,
-     private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService,
+    // private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService,
     
     ) {}
 
@@ -62,7 +62,7 @@ export class InferenceOrchestratorService {
         modelName: createTtsDto.modelName
        }
         // Send the requestBody data to the queue
-        await this.inferenceOrchestratorSQLiteService.create(sqliteDto)
+      //  await this.inferenceOrchestratorSQLiteService.create(sqliteDto)
         await this.rabbitMQService.sendToQueue('awaiting_processing', requestBodyData, header );
         await this.rabbitMQService.sendToQueue('awaiting_processing_ms', requestBodyData, header);
       
