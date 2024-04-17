@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as amqp from 'amqplib/callback_api';
 import * as dotenv from 'dotenv';
-import { InferenceOrchestratorSQLiteService } from '../sqlite/inference-orchestrator.service';
+//import { InferenceOrchestratorSQLiteService } from '../sqlite/inference-orchestrator.service';
 
 dotenv.config(); 
 
@@ -16,7 +16,7 @@ export class RabbitMQService {
   private channel: amqp.Channel;
   public isConnected: boolean = false;
 
-  constructor( private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService ) {
+  constructor() {
     this.connectToRabbitMQ(); 
     
   }
@@ -55,16 +55,16 @@ export class RabbitMQService {
       }); 
      
       // after channel created, check database for any processing task that needs to be retrried
-   const pendindTask =  await this.inferenceOrchestratorSQLiteService.findAll({where: {status: 'P'}});
-         pendindTask.map((pendingTask) => {
-          const  pendindTaskBodyData = JSON.stringify({
-            taskId:pendingTask.taskId,
-            text: pendingTask.text,
-            textLanguage: pendingTask .language,
-            modelName: pendingTask.model
-          });
-          this.sendToQueue('awaiting_processing_ms', pendindTaskBodyData , {} )
-        })
+  //  const pendindTask =  await this.inferenceOrchestratorSQLiteService.findAll({where: {status: 'P'}});
+  //        pendindTask.map((pendingTask) => {
+  //         const  pendindTaskBodyData = JSON.stringify({
+  //           taskId:pendingTask.taskId,
+  //           text: pendingTask.text,
+  //           textLanguage: pendingTask .language,
+  //           modelName: pendingTask.model
+  //         });
+  //         this.sendToQueue('awaiting_processing_ms', pendindTaskBodyData , {} )
+  //       })
   
     } catch (error) { 
       console.error('Error connecting to RabbitMQ:', error);

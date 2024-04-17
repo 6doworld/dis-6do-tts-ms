@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RabbitMQService } from './rabbitmq.service';
 import {InferenceOrchestratorService} from '../inference-orchestrator.service'
-import { InferenceOrchestratorSQLiteService } from '../sqlite/inference-orchestrator.service';
+//import { InferenceOrchestratorSQLiteService } from '../sqlite/inference-orchestrator.service';
 
 import * as amqp from 'amqplib/callback_api';
 
@@ -17,7 +17,7 @@ export class RabbitMQConsumerService {
   constructor(
     private readonly rabbitMQService: RabbitMQService,
     private readonly inferenceOrchestratorService: InferenceOrchestratorService,
-    private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService
+    // private readonly inferenceOrchestratorSQLiteService: InferenceOrchestratorSQLiteService
 
     ) {
     this.startConsuming();
@@ -51,7 +51,7 @@ export class RabbitMQConsumerService {
       var newMessage = JSON.parse(message.content.toString());
      
    
-      await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'P', 'Processing')
+    //  await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'P', 'Processing')
 
       const gptModelPath = `trainedModel/${newMessage.modelName}/ref.ckpt`;
       const sovitsModelPath = `trainedModel/${newMessage.modelName}/ref.pth`;
@@ -71,13 +71,13 @@ export class RabbitMQConsumerService {
        const downloadLink = `${MS_BASE_URL}/ttsVoiceOutput/${randomString}.wav`;
 
       // Post to finished_processing queue
-       await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'F', 'Finished Processing')
+    //   await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'F', 'Finished Processing')
        const header = { task_id: newMessage.taskId, download_url: downloadLink }
        await this.rabbitMQService.sendToQueue('finished_processing', JSON.stringify({}),  header);
     
     } catch (error) {
       console.error('Error processing message:', error);
-      await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'E', 'Error Processing')
+   //   await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'E', 'Error Processing')
       const header = { task_id: newMessage.taskId, error_message: 'Error processing message: Please retry' }
       await this.rabbitMQService.sendToQueue('error_processing', JSON.stringify({}), header);
 
