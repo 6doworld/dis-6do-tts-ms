@@ -9,8 +9,8 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 
 dotenv.config(); 
-const SQLITE_FOLDER_NAME = process.env.SQLITE_FOLDER_NAME
-const SQLITE_FILE_NAME = process.env.SQLITE_FILE_NAME
+const SQLITE_FOLDER_NAME = 'sqliteStorageh'
+const SQLITE_FILE_NAME = 'database.sqlite'
 const sqliteFolderPath = path.join(__dirname,   '..', SQLITE_FOLDER_NAME!);
 const sqliteFileName = path.join(sqliteFolderPath, SQLITE_FILE_NAME!);
  
