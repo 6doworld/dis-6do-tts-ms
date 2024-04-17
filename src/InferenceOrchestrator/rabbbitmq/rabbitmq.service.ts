@@ -26,6 +26,7 @@ export class RabbitMQService {
       this.connection = await new Promise<amqp.Connection>((resolve, reject) => {
         amqp.connect(`amqp://${RABBIT_MQ_USER}:${RABBIT_MQ_PASS}@${RABBIT_MQ_HOST}/${VHOST}`, (error: Error, connection: amqp.Connection) => {
           if (error) {
+            console.log(error)
             reject(error);
           }
           resolve(connection);
@@ -36,11 +37,13 @@ export class RabbitMQService {
   
       this.channel = await new Promise<amqp.Channel>((resolve, reject) => {
         if (!this.connection) {
+          console.log("connection not established")
           reject(new Error('Connection is not established'));
         }
   
         this.connection.createChannel((error: Error, channel: amqp.Channel) => {
           if (error) {
+            console.log(error)
             reject(error);
           }
           
