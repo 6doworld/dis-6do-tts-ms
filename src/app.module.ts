@@ -17,13 +17,13 @@ const sqliteFileName = path.join(SQLITE_FOLDER_NAME, SQLITE_FILE_NAME!);
 @Module({
   imports: [
     InferenceOrchestratorModule,
-    // TypeOrmModule.forRoot({
-    //   type: 'sqlite',
-    //   database: sqliteFileName, 
-    //   entities: [InferenceOrchestratorEntity], 
-    //   synchronize: true,
-    //   logging:true
-    // }),
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: sqliteFileName, 
+      entities: [InferenceOrchestratorEntity], 
+      synchronize: true,
+      logging:true
+    }),
   
   ],
   controllers: [AppController],
