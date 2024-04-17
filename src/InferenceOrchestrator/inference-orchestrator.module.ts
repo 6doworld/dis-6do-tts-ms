@@ -9,8 +9,8 @@ import { InferenceOrchestratorEntity } from './sqlite/inference-orchestrator.ent
 import { InferenceOrchestratorSQLiteController } from './sqlite/inference-orchestrator.controller'; 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InferenceOrchestratorEntity])],
-  controllers: [InferenceOrchestratorController, InferenceOrchestratorSQLiteController],
-  providers: [InferenceOrchestratorService, RabbitMQService, RabbitMQConsumerService,InferenceOrchestratorSQLiteService],
+  imports: [],
+  controllers: [InferenceOrchestratorController],
+  providers: [InferenceOrchestratorService, RabbitMQService, RabbitMQConsumerService],
 })
 export class InferenceOrchestratorModule {}
