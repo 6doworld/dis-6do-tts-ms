@@ -9,21 +9,21 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 
 dotenv.config(); 
-const SQLITE_FOLDER_NAME = 'sqliteStorageh'
+const SQLITE_FOLDER_NAME = '/sqliteStorage'
 const SQLITE_FILE_NAME = 'database.sqlite'
-const sqliteFolderPath = path.join(__dirname,   '..', SQLITE_FOLDER_NAME!);
-const sqliteFileName = path.join(sqliteFolderPath, SQLITE_FILE_NAME!);
+//const sqliteFolderPath = path.join( '..', SQLITE_FOLDER_NAME!);
+const sqliteFileName = path.join(SQLITE_FOLDER_NAME, SQLITE_FILE_NAME!);
  
 @Module({
   imports: [
     InferenceOrchestratorModule,
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: sqliteFileName, 
-      entities: [InferenceOrchestratorEntity], 
-      synchronize: true,
-      logging:true
-    }),
+    // TypeOrmModule.forRoot({
+    //   type: 'sqlite',
+    //   database: sqliteFileName, 
+    //   entities: [InferenceOrchestratorEntity], 
+    //   synchronize: true,
+    //   logging:true
+    // }),
   
   ],
   controllers: [AppController],
