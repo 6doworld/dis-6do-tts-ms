@@ -52,16 +52,16 @@ export class RabbitMQService {
       }); 
      
       // after channel created, check database for any processing task that needs to be retrried
-  //  const pendindTask =  await this.inferenceOrchestratorSQLiteService.findAll({where: {status: 'P'}});
-  //        pendindTask.map((pendingTask) => {
-  //         const  pendindTaskBodyData = JSON.stringify({
-  //           taskId:pendingTask.taskId,
-  //           text: pendingTask.text,
-  //           textLanguage: pendingTask .language,
-  //           modelName: pendingTask.model
-  //         });
-  //         //this.sendToQueue('awaiting_processing_ms', pendindTaskBodyData , {} )
-  //       })
+   const pendindTask =  await this.inferenceOrchestratorSQLiteService.findAll({where: {status: 'P'}});
+         pendindTask.map((pendingTask) => {
+          const  pendindTaskBodyData = JSON.stringify({
+            taskId:pendingTask.taskId,
+            text: pendingTask.text,
+            textLanguage: pendingTask .language,
+            modelName: pendingTask.model
+          });
+          this.sendToQueue('awaiting_processing_ms', pendindTaskBodyData , {} )
+        })
   
     } catch (error) { 
       console.error('Error connecting to RabbitMQ:', error);
