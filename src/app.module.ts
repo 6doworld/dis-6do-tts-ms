@@ -22,7 +22,7 @@ const sqliteFileName = path.join(SQLITE_FOLDER_NAME, SQLITE_FILE_NAME);
         type: 'sqlite',
         database: sqliteFileName, 
         entities: [InferenceOrchestratorEntity], 
-        synchronize: false,
+        synchronize: process.env.synchronize === 'true',
         logging: true
       }),
       inject: [],
