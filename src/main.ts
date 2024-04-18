@@ -14,7 +14,7 @@ async function bootstrap() {
 
     // Serve static files from the 'ttsVoiceOutput' directory
     app.useGlobalPipes(new ValidationPipe());
-    app.use('/ttsVoiceOutput', express.static(path.resolve(__dirname, '..', 'ttsVoiceOutput')));
+    app.use('/ttsVoiceOutput', express.static(path.resolve( '/ttsVoiceOutput')));
 
     await app.listen(process.env.PORT || 3000);
   } catch (error) {
