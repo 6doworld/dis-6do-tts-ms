@@ -15,15 +15,6 @@ const SQLITE_FILE_NAME = 'database.sqlite';
 //const sqliteFolderPath = path.join(__dirname, SQLITE_FOLDER_NAME);
 const sqliteFileName = path.join(SQLITE_FOLDER_NAME, SQLITE_FILE_NAME);
 
-// Ensure the SQLite folder exists
-if (!fs.existsSync(SQLITE_FOLDER_NAME)) {
-    fs.mkdirSync(SQLITE_FOLDER_NAME);
-}
-
-// Ensure the SQLite file exists
-if (!fs.existsSync(sqliteFileName)) {
-    fs.writeFileSync(sqliteFileName, ''); // Create an empty file
-}
 
 @Module({
   imports: [
