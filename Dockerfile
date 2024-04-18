@@ -13,11 +13,11 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
-# Create the sqliteStorage directory
-RUN mkdir -p /sqliteStorage
+# # Create the sqliteStorage directory
+# RUN mkdir -p /sqliteStorage
 
-# Create the database.sqlite file inside sqliteStorage
-RUN touch /sqliteStorage/database.sqlite
+# # Create the database.sqlite file inside sqliteStorage
+# RUN touch /sqliteStorage/database.sqlite
 
 # Expose the port the app runs on
 EXPOSE 3000
