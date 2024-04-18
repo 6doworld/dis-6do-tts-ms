@@ -18,7 +18,7 @@ export class InferenceOrchestratorEntity {
   @Column({ type: 'text', nullable: false })
   model: string;
 
-  @Column({ type: 'text', length: 1, enum: ['A', 'P', 'F', 'E'] })
+  @Column({ type: 'text', nullable:false })
   status: string;
 
   @Column({ type: 'text', nullable: true })
