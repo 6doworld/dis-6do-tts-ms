@@ -5,28 +5,28 @@ import { InferenceOrchestratorModule } from './InferenceOrchestrator/inference-o
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InferenceOrchestratorEntity } from './InferenceOrchestrator/sqlite/inference-orchestrator.entity';
 import * as path from 'path';
-import * as fs from 'fs';
+
 
 import * as dotenv from 'dotenv';
 
 dotenv.config(); 
 const SQLITE_FOLDER_NAME = '/sqliteStorage';
 const SQLITE_FILE_NAME = 'database.sqlite';
-//const sqliteFolderPath = path.join(__dirname, SQLITE_FOLDER_NAME);
 const sqliteFileName = path.join(SQLITE_FOLDER_NAME, SQLITE_FILE_NAME);
-
 
 @Module({
   imports: [
     InferenceOrchestratorModule,
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: sqliteFileName, 
-      entities: [InferenceOrchestratorEntity], 
-      synchronize: true,
-      logging: true
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'sqlite',
+        database: sqliteFileName, 
+        entities: [InferenceOrchestratorEntity], 
+        synchronize: true,
+        logging: true
+      }),
+      inject: [],
     }),
-  
   ],
   controllers: [AppController],
   providers: [AppService],
