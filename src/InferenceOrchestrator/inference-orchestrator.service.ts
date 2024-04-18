@@ -28,7 +28,7 @@ export class InferenceOrchestratorService {
   async create(createTtsDto: CreateTtsDto) {
     try {
 
-      const folderPath = path.join(currentDir, '..', '..', '..' , 'dis-6do-tts-ml/trainedModel');
+      const folderPath = path.join('/trainedModel');
 
       const trainedModelFolders = await this.getFolderNames(folderPath)
      
@@ -83,7 +83,7 @@ export class InferenceOrchestratorService {
   //GET ALL TRAINED MODEL
   async findAllTrainedModel() {
     // Move two levels up from the current directory and go to trained model directory
-    const folderPath = path.join(currentDir, '..', '..', '..' , 'dis-6do-tts-ml/trainedModel');
+    const folderPath = path.join('/trainedModel');
 
     
     const trainedModel = await this.getFolderNames(folderPath)
@@ -150,7 +150,7 @@ export class InferenceOrchestratorService {
   async runInferenceAndSave( text: string, language: string, outputFilename: string, folderName: string): Promise<void> {
     try {
       //  the full output folder path including the created folder
-      const outputFolderPath = path.join(__dirname,  '..', '..', folderName);
+      const outputFolderPath = path.join(`/${folderName}`);
       const outputFilePath = path.join(outputFolderPath, outputFilename);
 
       // if the folder doesn't exist
