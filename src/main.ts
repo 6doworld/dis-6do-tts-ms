@@ -18,6 +18,7 @@ async function bootstrap() {
 
     await app.listen(process.env.PORT || 3000);
   } catch (error) {
+    console.log(error)
     if (error instanceof Error) {
       console.error('An error occurred:', error.message);
     } else {
