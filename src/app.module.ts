@@ -10,7 +10,7 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 
 dotenv.config(); 
-const SQLITE_FOLDER_NAME = '/sqliteStorage';
+const SQLITE_FOLDER_NAME = 'sqliteStorage';
 const SQLITE_FILE_NAME = 'database.sqlite';
 const sqliteFileName = path.join(SQLITE_FOLDER_NAME, SQLITE_FILE_NAME);
 
@@ -20,7 +20,7 @@ const sqliteFileName = path.join(SQLITE_FOLDER_NAME, SQLITE_FILE_NAME);
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'sqlite',
-        database: sqliteFileName, 
+        database: '/sqliteStorage/database.sqlite', 
         entities: [InferenceOrchestratorEntity], 
         synchronize: process.env.synchronize === 'true',
         logging: true
