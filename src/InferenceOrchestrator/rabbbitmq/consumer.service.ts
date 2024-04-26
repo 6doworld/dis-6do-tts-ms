@@ -40,7 +40,7 @@ export class RabbitMQConsumerService {
 
   private async processMessage(message: amqp.Message | null): Promise<void> {
     console.log("start consuming as we have an awaiting processing")
-    console.log(message)
+   // console.log(message)
     if (!message) {
       console.warn('Empty message received');
       return;

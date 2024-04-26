@@ -8,6 +8,7 @@ dotenv.config();
 const RABBIT_MQ_HOST = process.env.RABBIT_MQ_HOST
 const RABBIT_MQ_PASS= process.env.RABBIT_MQ_PASS
 const RABBIT_MQ_USER = process.env.RABBIT_MQ_USER
+const RABBIT_MQ_PORT = process.env.RABBIT_MQ_PORT
 const VHOST  = process.env.VHOST
 
 @Injectable()
@@ -24,7 +25,17 @@ export class RabbitMQService {
   private async connectToRabbitMQ(): Promise<void> {
     try {
       this.connection = await new Promise<amqp.Connection>((resolve, reject) => {
-        amqp.connect(`amqp://${RABBIT_MQ_USER}:${RABBIT_MQ_PASS}@${RABBIT_MQ_HOST}/${VHOST}`, (error: Error, connection: amqp.Connection) => {
+        // `amqp://${RABBIT_MQ_USER}:${RABBIT_MQ_PASS}@${RABBIT_MQ_HOST}/${VHOST}`
+        amqp.connect({
+          // protocol: 'amqp',
+          // port: RABBIT_MQ_PORT as unknown as number,
+          hostname: RABBIT_MQ_HOST,
+          port: RABBIT_MQ_PORT as unknown as number,
+          username: RABBIT_MQ_USER,
+          password: RABBIT_MQ_PASS,
+          vhost: VHOST,
+          frameMax: 0
+        }, (error: Error, connection: amqp.Connection) => {
           if (error) {
             reject(error);
           }

@@ -28,17 +28,17 @@ export class InferenceOrchestratorService {
   async create(createTtsDto: CreateTtsDto) {
     try {
 
-      const folderPath = path.join('/trainedModel');
+     // const folderPath = path.join('/trainedModel');
 
-      const trainedModelFolders = await this.getFolderNames(folderPath)
+      // const trainedModelFolders = await this.getFolderNames(folderPath)
      
-      if (!trainedModelFolders.includes(createTtsDto.modelName))
-      return ErrorResponse(
-        400,
-        'Model name not valid. Use a valid model name...',
-        {},
-        null,
-      );
+      // if (!trainedModelFolders.includes(createTtsDto.modelName))
+      // return ErrorResponse(
+      //   400,
+      //   'Model name not valid. Use a valid model name...',
+      //   {},
+      //   null,
+      // );
 
         
         const requestBodyData = JSON.stringify({
@@ -83,12 +83,10 @@ export class InferenceOrchestratorService {
   //GET ALL TRAINED MODEL
   async findAllTrainedModel() {
     // Move two levels up from the current directory and go to trained model directory
-    const folderPath = path.join('/trainedModel');
-
-    
-    const trainedModel = await this.getFolderNames(folderPath)
-    //const trainedModel = ['Base', 'HP', 'LC', 'LJ-v1', 'LJ-v2', 'refAudio', 'XY' ]
-  return SuccessResponse(200, 'all trained model name now retrieved...', trainedModel, null);
+    //const folderPath = path.join('/trainedModel');
+    // const trainedModel = await this.getFolderNames(folderPath)
+    const trainedModel = ['Base', 'HP', 'LC', 'LJ-v1', 'LJ-v2', 'refAudio', 'XY' ]
+    return SuccessResponse(200, 'all trained model name now retrieved...', trainedModel, null);
   }
 
   //delete output file afetr acknoledgement
@@ -118,12 +116,14 @@ export class InferenceOrchestratorService {
   // get folder names
   async getFolderNames(directoryPath: string): Promise<string[]> {
   try {
-    const contents = await fsPromises.readdir(directoryPath);
-    const folders = contents.filter(async item => {
-      const itemPath = path.join(directoryPath, item);
-      const stats = await fsPromises.stat(itemPath);
-      return stats.isDirectory();
-    });
+    // const contents = await fsPromises.readdir(directoryPath);
+    // const folders = contents.filter(async item => {
+    //   const itemPath = path.join(directoryPath, item);
+    //   const stats = await fsPromises.stat(itemPath);
+    //   return stats.isDirectory();
+    // });
+    const folders = ['Base', 'HP', 'LC', 'LJ-v1', 'LJ-v2', 'refAudio', 'XY' ]
+
     return folders;
   } catch (error) {
     

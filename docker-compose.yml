@@ -1,0 +1,18 @@
+version: "3.2"
+services:
+  dis-6do-tts-ms:
+    build: .
+    hostname: 'ms'
+    container_name: 'dis-6do-tts-ms'
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    environment:
+        synchronize: true
+    volumes:
+      - ./sqliteStorage:/sqliteStorage
+      - ../dis-6do-tts-ml/trainedModel:/trainedModel
+      - ./ttsVoiceOutput:/ttsVoiceOutput
+    restart: unless-stopped
+
