@@ -24,6 +24,9 @@ export class InferenceOrchestratorEntity {
   @Column({ type: 'text', nullable: true })
   statusMessage: string;
 
+  @Column({ type: 'text', nullable: true })
+  username: string;
+
   @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

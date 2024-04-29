@@ -29,8 +29,8 @@ export class RabbitMQService {
         amqp.connect({
           // protocol: 'amqp',
           // port: RABBIT_MQ_PORT as unknown as number,
-          hostname: RABBIT_MQ_HOST,
-          port: RABBIT_MQ_PORT as unknown as number,
+          hostname: '192.168.1.12',
+          port: 5672,
           username: RABBIT_MQ_USER,
           password: RABBIT_MQ_PASS,
           vhost: VHOST,
@@ -69,7 +69,8 @@ export class RabbitMQService {
             taskId:pendingTask.taskId,
             text: pendingTask.text,
             textLanguage: pendingTask .language,
-            modelName: pendingTask.model
+            modelName: pendingTask.model,
+            username: pendingTask.username
           });
           this.sendToQueue('awaiting_processing_ms', pendindTaskBodyData , {} )
         })

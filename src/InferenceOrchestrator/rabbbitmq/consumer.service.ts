@@ -72,13 +72,13 @@ export class RabbitMQConsumerService {
 
       // Post to finished_processing queue
        await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'F', 'Finished Processing')
-       const header = { task_id: newMessage.taskId, download_url: downloadLink }
+       const header = { task_id: newMessage.taskId, download_url: downloadLink , username: newMessage.username}
        await this.rabbitMQService.sendToQueue('finished_processing', JSON.stringify({}),  header);
     
     } catch (error) {
       console.error('Error processing message:', error);
       await this.inferenceOrchestratorSQLiteService.updateStatusByTaskId(newMessage.taskId, 'E', 'Error Processing')
-      const header = { task_id: newMessage.taskId, error_message: 'Error processing message: Please retry' }
+      const header = { task_id: newMessage.taskId, error_message: 'Error processing message: Please retry',username: newMessage.username }
       await this.rabbitMQService.sendToQueue('error_processing', JSON.stringify({}), header);
 
     }

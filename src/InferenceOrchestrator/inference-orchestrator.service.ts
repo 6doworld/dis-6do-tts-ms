@@ -45,21 +45,24 @@ export class InferenceOrchestratorService {
           taskId:createTtsDto.taskId,
           text: createTtsDto.text,
           textLanguage: createTtsDto .textLanguage,
-          modelName: createTtsDto.modelName
+          modelName: createTtsDto.modelName,
+          username: createTtsDto.username || ""
         });
         const sqliteDto = {
           taskId:createTtsDto.taskId,
           text: createTtsDto.text,
-          language: createTtsDto .textLanguage,
+          language: createTtsDto.textLanguage,
           model: createTtsDto.modelName,
           status: 'A',
-          statusMessage: 'Awaiting Processing'
+          statusMessage: 'Awaiting Processing',
+          username: createTtsDto.username || ""
         };
        const header = {
         taskId:createTtsDto.taskId,
         text: createTtsDto.text,
         textLanguage: createTtsDto .textLanguage,
-        modelName: createTtsDto.modelName
+        modelName: createTtsDto.modelName,
+        username: createTtsDto.username || ""
        }
         // Send the requestBody data to the queue
         await this.inferenceOrchestratorSQLiteService.create(sqliteDto)
