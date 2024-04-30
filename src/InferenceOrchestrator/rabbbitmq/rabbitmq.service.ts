@@ -29,8 +29,8 @@ export class RabbitMQService {
         amqp.connect({
           // protocol: 'amqp',
           // port: RABBIT_MQ_PORT as unknown as number,
-          hostname: '192.168.1.12',
-          port: 5672,
+          hostname: RABBIT_MQ_HOST,
+          port: RABBIT_MQ_PORT as unknown as number,
           username: RABBIT_MQ_USER,
           password: RABBIT_MQ_PASS,
           vhost: VHOST,
